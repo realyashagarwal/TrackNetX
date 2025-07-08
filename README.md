@@ -1,37 +1,46 @@
-# TrackNetX 🎯
+# 🎯 TrackNetX
 
-**TrackNetX is a real-time multi-object tracking system with re-identification capabilities, purpose-built for sports analytics. Powered by YOLOv11 and advanced computer vision techniques, the system can detect and consistently track players across frames—even when they leave and re-enter the scene—ensuring persistent identity over time.**
+![Python](https://img.shields.io/badge/python-3.9-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+**TrackNetX** is a real-time multi-object tracking system with re-identification capabilities, purpose-built for football analytics. Powered by YOLOv11 and advanced computer vision techniques, it consistently detects and tracks players, goalkeepers, referees, and the ball—even when they leave and re-enter the frame—ensuring persistent identity throughout the match.
 
 ## 🚀 Overview
 
-TrackNetX provides automated player tracking and re-identification capabilities for sports video analysis, enabling consistent player identification even when players temporarily leave the frame.
+TrackNetX automates player detection, tracking, and re-identification specifically for football videos. Whether it's analyzing key moments, tactical sequences, or full match footage, it enables consistent identity tracking of all field participants even through player clustering, occlusions, or brief exits from the camera view.
 
 ## ✨ Key Features
 
-- Real-time player detection using YOLOv11
-- Advanced re-identification algorithms
-- Robust tracking across occlusions
+- 🕵️ **Real-time Detection**: Player and ball detection using YOLOv11
+- 🔁 **Re-identification**: Tracks objects across frames and occlusions
+- 🎥 **High Performance**: Real-time processing on 720p sports videos
+- 🧠 **Multi-class Support**: 4 distinct classes: **player**, **ball**, **goalkeeper**, **referee**
+- 📈 **Analytics**: Logs processing progress and summary statistics
 
+## 🛠️ Setup Guide
 
-## 🛠️ Setup
-
-### 1. Clone Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/realyashagarwal/TrackNetX
 cd TrackNetX
 ```
 
-### 2. Create Environment
+### 2. Create and Activate Environment
+
+**Option A: Using Conda (Recommended)**
 
 ```bash
-# Using conda (recommended)
-conda create -n player-tracking python=3.9 -y
-conda activate player-tracking
+conda create -n tracknetx python=3.9 -y
+conda activate tracknetx
+```
 
-# Or using venv
+**Option B: Using venv**
+
+```bash
 python -m venv player-tracking-env
-source player-tracking-env/bin/activate  # On Windows: player-tracking-env\Scripts\activate
+source player-tracking-env/bin/activate  # Linux/Mac
+# Windows: player-tracking-env\Scripts\activate
 ```
 
 ### 3. Install Dependencies
@@ -40,7 +49,7 @@ source player-tracking-env/bin/activate  # On Windows: player-tracking-env\Scrip
 pip install -r requirements.txt
 ```
 
-### 4. Setup Project
+### 4. Setup the Project
 
 ```bash
 python src/main.py --setup
@@ -48,13 +57,27 @@ python src/main.py --setup
 
 ### 5. Add Required Files
 
-- Download the YOLOv11 model and place it in `data/models/player_detection_model.pt`
-- Add your input video to `data/videos/15sec_input_720p.mp4`
+- Download the YOLOv11 model and place it at: `data/models/player_detection_model.pt`
+- Add your video to: `data/videos/15sec_input_720p.mp4`
 
-### 6. Test Detection
+## 🚀 Quick Start
+
+### Test Installation
 
 ```bash
 python src/main.py --test
+```
+
+### Process a Video
+
+```bash
+python src/main.py --video data/videos/15sec_input_720p.mp4
+```
+
+### Custom Output Location
+
+```bash
+python src/main.py --video data/videos/your_clip.mp4 --output outputs/custom_result.mp4
 ```
 
 ## 📁 Project Structure
@@ -63,91 +86,109 @@ python src/main.py --test
 TrackNetX/
 ├── data/
 │   ├── videos/          # Input videos
-│   └── models/          # YOLO model files
+│   └── models/          # Model weights
 ├── src/
-│   ├── detection.py     # Player detection module
-│   ├── tracking.py      # Player tracking module
-│   ├── main.py          # Main application
-│   └── utils.py         # Utility functions
+│   ├── detection.py     # Detection logic
+│   ├── tracking.py      # Tracking and re-ID
+│   ├── main.py          # Entry point
+│   └── utils.py         # Helper functions
 ├── outputs/
-│   ├── frames/          # Sample and processed frames
-│   └── results/         # Final output videos
-├── tests/               # Test files
-├── requirements.txt     # Python dependencies
+│   ├── frames/          # Intermediate visualizations
+│   └── results/         # Final processed videos
+├── tests/               # Unit/integration tests
+├── requirements.txt     # Dependencies
 └── README.md           # This file
 ```
 
-
-### Basic Detection Test
-
-```bash
-python src/main.py --test
-```
-
-### Process Full Video
-
-```bash
-python src/main.py --video data/videos/15sec_input_720p.mp4
-```
-
-
 ## 🤖 Model Information
 
-- **Model**: Fine-tuned YOLOv11 for player and ball detection
-- **Classes**: Players and ball
-- **Input**: 720p video (15 seconds)
-- **Performance**: Real-time processing on modern GPUs
+- **Base Model**: YOLOv11 (Ultralytics)
+- **Fine-tuned for**: Sports analytics
+- **Tracked Classes**: player, ball, goalkeeper, referee
+- **Input Format**: 720p videos
+- **Performance**: ~17 FPS on RTX 3070 (FP16 enabled)
 
-## 📋 Requirements
+## 📦 Usage Examples
 
-- Python 3.9+
-- OpenCV
-- Ultralytics YOLOv11
-- PyTorch
-- NumPy
-- GPU recommended for real-time processing
-
-## 🚀 Getting Started Quickly
-
-### Step 1: Quick Setup (5 minutes)
+### Basic Usage
 
 ```bash
-git clone https://github.com/realyashagarwal/TrackNetX
-cd TrackNetX
-conda create -n player-tracking python=3.9 -y
-conda activate player-tracking
+# 1. Install environment
+conda create -n tracknetx python=3.9
+conda activate tracknetx
 pip install -r requirements.txt
+
+# 2. Add your video
+cp your_game_video.mp4 data/videos/
+
+# 3. Run the tracker
+python src/main.py --video data/videos/your_game_video.mp4
+
+# 4. View results in outputs/tracked_video.mp4
+```
+
+### Advanced Usage
+
+```bash
+# Custom output path
+python src/main.py --video data/videos/game_clip.mp4 --output outputs/my_tracking.mp4
+
+# Test mode
+python src/main.py --test
+
+# Setup mode
 python src/main.py --setup
 ```
 
-### Step 2: Download Model and Test (10 minutes)
+## 📊 Expected Output
 
-1. **Download the model** from the provided Google Drive link
-2. **Rename it** to `player_detection_model.pt`
-3. **Place it** in `data/models/` folder
-4. **Add your video** to `data/videos/` folder
-5. **Test the setup:**
+When running the system, you can expect:
 
-```bash
-python src/main.py --test
+- ✅ Model initialized with **GPU + FP16** acceleration
+- ✅ Detection of 4 object classes
+- ✅ Video properties analysis (resolution, FPS, frame count)
+- ✅ Unique identity tracking across frames
+- ✅ Final processed video saved to specified output path
+
+**Example processing log:**
+```
+✅ Model initialized with GPU + FP16
+✅ 4 object classes detected
+✅ Detected video properties: 1280×720, 25 FPS, 375 frames
+✅ Tracked 119 unique identities
+✅ Final active tracks: 3
+📍 Output saved at: outputs/tracked_video.mp4
 ```
 
-### Step 3: Commit and Push Initial Setup (5 minutes)
+## 🔧 Troubleshooting
 
-```bash
-# Add all files to git
-git add .
+### Common Issues
 
-# Commit with a descriptive message
-git commit -m "Initial project setup: dependencies, structure, and basic detection module"
+1. **Model file not found**: Ensure `player_detection_model.pt` is in `data/models/`
+2. **Video format issues**: Use MP4 format for best compatibility
+3. **Performance issues**: Enable GPU acceleration and FP16 for better performance
 
-# Push to GitHub
-git push origin main
-```
+### System Requirements
+
+- Python 3.9+
+- CUDA-compatible GPU (recommended)
+- OpenCV-compatible video formats
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- YOLOv11 by Ultralytics
+- OpenCV community
 
 ---
 
