@@ -2,9 +2,11 @@
 __pycache__/
 
 # Project specific
+data
 data/videos/*.mp4
 data/videos/*.avi
 data/models/*.pt
+outputs
 outputs/frames/*.jpg
 outputs/frames/*.png
 outputs/results/*.mp4
