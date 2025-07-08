@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project specific
+data/videos/*.mp4
+data/videos/*.avi
+data/models/*.pt
+outputs/frames/*.jpg
+outputs/frames/*.png
+outputs/results/*.mp4
+
+# Environment
+tracknetx-env/
+.conda/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
